@@ -1,0 +1,411 @@
+@use "sass:color";
+
+// ==== Root Colors ====
+$color-bg: #240539;
+$color-vanilla: #f0e4d0;
+$color-chocolate: #552913d6;
+$color-plate: #bd79ce;
+$color-candle: #7B020B;
+$color-flame: orange;
+$color-shadow: #ccc;
+$color-text: #fff;
+
+// ==== Optional Derived Colors (if reused) ====
+$color-vanilla-light: color.adjust($color-vanilla, $lightness: 3%);
+$color-candle-light: color.adjust($color-candle, $lightness: 10%);
+
+// ==== Base Styles ====
+body {
+    background-color: $color-bg;
+}
+
+.birthday-text {
+  color: white;
+  font-family: 'UnifrakturCook', cursive; // gothic-style font
+  text-align: center;
+  font-size: 3rem;
+  margin-top: 1rem;
+  letter-spacing: 2px;
+  text-shadow: 0 0 5px $color-text, 0 0 15px #ff00ff; 
+  animation: gothicGlow 2s ease-in-out infinite;
+}
+@keyframes gothicGlow {
+  0%, 100% {
+    text-shadow: 0 0 5px white, 0 0 10px #a020f0; // rich purple
+  }
+  50% {
+    text-shadow: 0 0 8px white, 0 0 20px #800080; // deep purple
+  }
+}
+
+p{
+    color: $color-text;
+    text-align: center;
+    
+}
+// ==== Cake Shadow Mixin ====
+@mixin foodColoring($color) {
+    background-color: $color;
+    box-shadow:
+        0 2px 0px color.adjust($color, $lightness: 5%),
+        0 4px 0px color.adjust($color, $lightness: -8.2%),
+        0 6px 0px color.adjust($color, $lightness: -8.4%),
+        0 8px 0px color.adjust($color, $lightness: -8.6%),
+        0 10px 0px color.adjust($color, $lightness: -8.8%),
+        0 12px 0px color.adjust($color, $lightness: -9%),
+        0 14px 0px color.adjust($color, $lightness: -9.2%),
+        0 16px 0px color.adjust($color, $lightness: -9.4%),
+        0 18px 0px color.adjust($color, $lightness: -9.6%),
+        0 20px 0px color.adjust($color, $lightness: -9.8%),
+        0 22px 0px color.adjust($color, $lightness: -10%),
+        0 24px 0px color.adjust($color, $lightness: -10.2%),
+        0 26px 0px color.adjust($color, $lightness: -10.4%),
+        0 28px 0px color.adjust($color, $lightness: -10.6%),
+        0 30px 0px color.adjust($color, $lightness: -10.8%);
+}
+
+// ==== Cake & Parts ====
+
+.cake {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -70px;
+    margin-left: -125px;
+    padding: 10px 10px 10px 10px;
+}
+
+.cake > * {
+    position: absolute;
+}
+
+// These are the cake peices
+.layer {
+    width: 250px;
+    height: 100px;
+    border-radius: 50%;
+    @include foodColoring($color-chocolate);
+}
+
+.layer-top { 
+  top: 0px; 
+}
+
+.layer-middle {
+   top: 33px; 
+  }
+
+.layer-bottom { 
+  top: 66px; 
+}
+
+.icing {
+    top: 2px;
+    left: 5px;
+    background-color: $color-vanilla;
+    width: 240px;
+    height: 90px;
+    border-radius: 50%;
+    &:before {
+        content: "";
+        position: absolute;
+        top: 4px;
+        right: 5px;
+        bottom: 6px;
+        left: 5px;
+        background-color: $color-vanilla-light;
+        box-shadow:
+            0 0 4px $color-vanilla-light,
+            0 0 4px $color-vanilla-light,
+            0 0 4px $color-vanilla-light;
+        border-radius: 50%;
+        z-index: 1;
+    }
+}
+// icing sliding down
+.drip {
+    display: block;
+    width: 50px;
+    height: 60px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    background-color: $color-vanilla;
+}
+
+.drip1 {
+    top: 53px;
+    left: 5px;
+    transform: skewY(15deg);
+    height: 48px;
+    width: 40px;
+}
+
+.drip2 {
+    top: 69px;
+    left: 181px;
+    transform: skewY(-15deg);
+}
+
+.drip3 {
+    top: 54px;
+    left: 90px;
+    width: 80px;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+
+.candle {
+    background-color: $color-candle;
+    width: 16px;
+    height: 50px;
+    border-radius: 8px / 4px;
+    top: -20px;
+    left: 50%;
+    margin-left: -8px;
+    z-index: 10;
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 16px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: $color-candle-light;
+    }
+}
+
+.flame {
+    position: absolute;
+    background-color: $color-flame;
+    width: 15px;
+    height: 35px;
+    border-radius: 10px 10px 10px 10px / 25px 25px 10px 10px;
+    top: -34px;
+    left: 50%;
+    margin-left: -7.5px;
+    z-index: 10;
+    box-shadow:
+        0 0 10px rgba($color-flame, 0.5),
+        0 0 20px rgba($color-flame, 0.5),
+        0 0 60px rgba($color-flame, 0.5),
+        0 0 80px rgba($color-flame, 0.5);
+    transform-origin: 50% 90%;
+    animation: flicker 1s ease-in-out alternate infinite;
+}
+
+
+.flame.flickering {
+  animation: flicker 1s ease-in-out alternate infinite;
+  opacity: 1;
+  transform: scale(1);
+}
+ 
+.flame.growing {
+  animation: flameOn 1s ease-out forwards;
+  opacity: 1;
+}
+
+
+/* Flicker animation for flame on */
+.flame.flickering {
+  animation: flicker 1s ease-in-out alternate infinite;
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Spark grows the flame from small to full */
+.flame.growing {
+  animation: flameOn 1s ease-out forwards;
+  opacity: 1;
+}
+
+/* Extinguish shrinks and fades flame */
+.flame.extinguishing {
+  animation: extinguish 2s ease-out forwards;
+  opacity: 0;
+}
+
+/* Puff smoke bubble */
+.smoke {
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  margin-left: -7.5px;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(closest-side, rgba(200,200,200,0.5), transparent);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes flicker {
+  0% {
+    transform: skewX(5deg);
+    box-shadow:
+      0 0 10px rgba(255, 140, 0, 0.5),
+      0 0 20px rgba(255, 140, 0, 0.5),
+      0 0 60px rgba(255, 140, 0, 0.5),
+      0 0 80px rgba(255, 140, 0, 0.5);
+  }
+  25% {
+    transform: skewX(-5deg);
+    box-shadow:
+      0 0 10px rgba(255, 165, 0, 0.8),
+      0 0 20px rgba(255, 165, 0, 0.8),
+      0 0 60px rgba(255, 165, 0, 0.8),
+      0 0 80px rgba(255, 165, 0, 0.8);
+  }
+  50% {
+    transform: skewX(10deg);
+    box-shadow:
+      0 0 10px rgba(255, 140, 0, 0.6),
+      0 0 20px rgba(255, 140, 0, 0.6),
+      0 0 60px rgba(255, 140, 0, 0.6),
+      0 0 80px rgba(255, 140, 0, 0.6);
+  }
+  75% {
+    transform: skewX(-10deg);
+    box-shadow:
+      0 0 10px rgba(255, 165, 0, 0.7),
+      0 0 20px rgba(255, 165, 0, 0.7),
+      0 0 60px rgba(255, 165, 0, 0.7),
+      0 0 80px rgba(255, 165, 0, 0.7);
+  }
+  100% {
+    transform: skewX(5deg);
+    box-shadow:
+      0 0 10px rgba(255, 140, 0, 0.8),
+      0 0 20px rgba(255, 140, 0, 0.8),
+      0 0 60px rgba(255, 140, 0, 0.8),
+      0 0 80px rgba(255, 140, 0, 0.8);
+  }
+}
+
+@keyframes flameOn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) skewX(0deg);
+    box-shadow: none;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) skewX(5deg);
+    box-shadow:
+      0 0 10px rgba(255, 140, 0, 0.8),
+      0 0 20px rgba(255, 140, 0, 0.8),
+      0 0 60px rgba(255, 140, 0, 0.8),
+      0 0 80px rgba(255, 140, 0, 0.8);
+  }
+}
+
+@keyframes extinguish {
+  0% {
+    opacity: 1;
+    transform: scaleY(1) skewX(5deg);
+    box-shadow:
+      0 0 10px rgba(255, 140, 0, 0.5),
+      0 0 20px rgba(255, 140, 0, 0.5),
+      0 0 60px rgba(255, 140, 0, 0.5),
+      0 0 80px rgba(255, 140, 0, 0.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0.2);
+    box-shadow: none;
+  }
+}
+
+@keyframes puff {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.5) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5) translateY(-40px);
+  }
+}
+
+@keyframes flicker {
+    0% {
+        transform: skewX(5deg);
+        box-shadow: 
+            0 0 10px rgba($color-flame, 0.2),
+            0 0 20px rgba($color-flame, 0.2),
+            0 0 60px rgba($color-flame, 0.2),
+            0 0 80px rgba($color-flame, 0.2);
+    }
+    25% {
+        transform: skewX(-5deg);
+        box-shadow:
+            0 0 10px rgba($color-flame, 0.5),
+            0 0 20px rgba($color-flame, 0.5),
+            0 0 60px rgba($color-flame, 0.5),
+            0 0 80px rgba($color-flame, 0.5);
+    }
+    50% {
+        transform: skewX(10deg);
+        box-shadow:
+            0 0 10px rgba($color-flame, 0.3),
+            0 0 20px rgba($color-flame, 0.3),
+            0 0 60px rgba($color-flame, 0.3),
+            0 0 80px rgba($color-flame, 0.3);
+    }
+    75% {
+        transform: skewX(-10deg);
+        box-shadow:
+            0 0 10px rgba($color-flame, 0.4),
+            0 0 20px rgba($color-flame, 0.4),
+            0 0 60px rgba($color-flame, 0.4),
+            0 0 80px rgba($color-flame, 0.4);
+    }
+    100% {
+        transform: skewX(5deg);
+        box-shadow:
+            0 0 10px rgba($color-flame, 0.5),
+            0 0 20px rgba($color-flame, 0.5),
+            0 0 60px rgba($color-flame, 0.5),
+            0 0 80px rgba($color-flame, 0.5);
+    }
+}
+
+@keyframes flameOn {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+@media (max-width: 575px) { // iPhone 6 width and below
+   .cake {
+    width: 200px;
+    height: 160px;
+  }
+
+  .birthday-text {
+    font-size: 2rem;
+    padding: 0 1rem;
+  }
+
+  .flame {
+    width: 20px;
+    height: 40px;
+    margin-left: -10px;
+  }
+
+  .drip1, .drip2, .drip3 {
+    transform: none !important; // Reduce awkward squish on tiny screens
+  }
+}
